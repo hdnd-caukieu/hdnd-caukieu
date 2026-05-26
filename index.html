@@ -126,12 +126,25 @@
   .news-excerpt{font-size:13px;color:var(--text-muted);line-height:1.55;}
 
   /* ĐẠI BIỂU */
-  .dai-bieu-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
-  .db-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 16px;text-align:center;transition:box-shadow 0.2s,transform 0.2s;}
+  /* CAROUSEL ĐẠI BIỂU */
+  .db-carousel-wrap{position:relative;}
+  .db-carousel{overflow:hidden;border-radius:var(--radius-lg);}
+  .db-track{display:flex;gap:20px;transition:transform 0.4s cubic-bezier(.4,0,.2,1);}
+  .db-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 16px;text-align:center;transition:box-shadow 0.2s,transform 0.2s;flex:0 0 calc(25% - 15px);min-width:0;}
   .db-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
-  .db-avatar{width:68px;height:68px;border-radius:50%;background:var(--navy);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;border:3px solid var(--red);}
+  .db-avatar{width:72px;height:72px;border-radius:50%;background:var(--navy);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#fff;border:3px solid var(--red);box-shadow:0 4px 12px rgba(192,57,43,0.2);}
   .db-name{font-size:14.5px;font-weight:700;color:var(--navy);margin-bottom:4px;}
   .db-chuc-vu{font-size:12.5px;color:var(--text-muted);line-height:1.4;margin-bottom:10px;}
+  .db-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:24px;}
+  .db-nav-btn{width:40px;height:40px;border-radius:50%;background:var(--white);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all 0.2s;color:var(--navy);}
+  .db-nav-btn:hover{background:var(--red);color:#fff;border-color:var(--red);}
+  .db-nav-btn:disabled{opacity:0.3;cursor:default;}
+  .db-dots{display:flex;gap:8px;align-items:center;}
+  .db-dot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:all 0.2s;}
+  .db-dot.active{background:var(--red);width:24px;border-radius:4px;}
+  .db-counter{font-size:13px;color:var(--text-muted);min-width:60px;text-align:center;}
+  @media(max-width:900px){.db-card{flex:0 0 calc(50% - 10px);}}
+  @media(max-width:600px){.db-card{flex:0 0 100%;}}
 
   /* TIẾP DÂN */
   .tiep-dan-schedule{background:var(--red);color:#fff;border-radius:var(--radius-lg);padding:28px 32px;margin-bottom:24px;}
@@ -437,8 +450,18 @@ const isConfigured = () => SHEET_ID && SHEET_ID !== 'YOUR_SHEET_ID_HERE';
 <!-- ĐẠI BIỂU -->
 <section class="section" id="dai-bieu" style="padding-top:0">
   <div class="section-head"><h2>Đại biểu HĐND phường (nhiệm kỳ 2026–2031)</h2></div>
-  <div class="dai-bieu-grid" id="daibieu-list">
-    <div class="loading">⏳ Đang tải...</div>
+  <div class="db-carousel-wrap">
+    <div class="db-carousel">
+      <div class="db-track" id="db-track">
+        <div class="loading">⏳ Đang tải...</div>
+      </div>
+    </div>
+    <div class="db-nav" id="db-nav" style="display:none">
+      <button class="db-nav-btn" id="db-prev" onclick="dbSlide(-1)">◀</button>
+      <div class="db-dots" id="db-dots"></div>
+      <div class="db-counter" id="db-counter"></div>
+      <button class="db-nav-btn" id="db-next" onclick="dbSlide(1)">▶</button>
+    </div>
   </div>
 </section>
 
@@ -613,14 +636,23 @@ async function loadTinTuc() {
 }
 
 // ── ĐẠI BIỂU ──
+// ── ĐẠI BIỂU + CAROUSEL ──
+let dbCurrentPage = 0;
+const DB_PER_PAGE = 4;
+let dbAllCards = [];
+
 async function loadDaiBieu() {
-  const el = document.getElementById('daibieu-list');
-  if (!isConfigured()) { el.innerHTML = placeholder('👤','Chưa kết nối Google Sheets','Điền SHEET_ID vào file index.html'); return; }
+  const track = document.getElementById('db-track');
+  if (!isConfigured()) { track.innerHTML = placeholder('👤','Chưa kết nối Google Sheets','Điền SHEET_ID vào file index.html'); return; }
   const rows = await fetchSheet(SHEETS.daibieu);
-  if (!rows.length) { el.innerHTML = placeholder('👤','Chưa có dữ liệu','Thêm dữ liệu vào sheet DaiBieu'); return; }
+  if (!rows.length) { track.innerHTML = placeholder('👤','Chưa có dữ liệu','Thêm dữ liệu vào sheet DaiBieu'); return; }
   document.getElementById('stat-daibieu').textContent = rows.length;
-  const tagColors = {'Thường trực':'background:var(--red-light);color:var(--red)','BKT-XH':'background:#EBF5FB;color:#2E86C1','BP Chế':'background:#EAFAF1;color:#1E8449'};
-  const allCards = rows.map(r => {
+  const tagColors = {
+    'Thường trực':'background:var(--red-light);color:var(--red)',
+    'BKT-XH':'background:#EBF5FB;color:#2E86C1',
+    'BP Chế':'background:#EAFAF1;color:#1E8449'
+  };
+  dbAllCards = rows.map(r => {
     const bg = avatarColor(r['HoTen'] || '?');
     const abi = initials(r['HoTen'] || '?');
     const tagStyle = tagColors[r['Ban']] || 'background:#EBF0FA;color:var(--navy-mid)';
@@ -629,21 +661,51 @@ async function loadDaiBieu() {
       <div class="db-name">${r['HoTen']||''}</div>
       <div class="db-chuc-vu">${(r['ChucVu']||'').replace(/;/g,'<br>')}</div>
       <span style="display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;${tagStyle}">${r['Ban']||''}</span>
-    </div>`;});
+    </div>`;
+  });
+  dbRender();
+}
 
-  const first4 = allCards.slice(0, 4).join('');
-  const rest = allCards.slice(4).join('');
-  const hasMore = allCards.length > 4;
+function dbRender() {
+  const track = document.getElementById('db-track');
+  const nav = document.getElementById('db-nav');
+  const dots = document.getElementById('db-dots');
+  const counter = document.getElementById('db-counter');
+  const totalPages = Math.ceil(dbAllCards.length / DB_PER_PAGE);
 
-  el.innerHTML = `
-    <div class="dai-bieu-grid" id="db-grid-main">${first4}</div>
-    ${hasMore ? `
-    <div class="dai-bieu-grid" id="db-grid-more" style="display:none;margin-top:20px;">${rest}</div>
-    <div style="text-align:center;margin-top:24px;">
-      <button onclick="toggleDaiBieu(this)" style="background:var(--white);border:1.5px solid var(--red);color:var(--red);border-radius:var(--radius);padding:10px 28px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;" onmouseover="this.style.background='var(--red)';this.style.color='#fff'" onmouseout="this.style.background='var(--white)';this.style.color='var(--red)'">
-        Xem thêm ${allCards.length - 4} đại biểu ▼
-      </button>
-    </div>` : ''}`;
+  // Hiển thị 4 thẻ hiện tại
+  const start = dbCurrentPage * DB_PER_PAGE;
+  const visible = dbAllCards.slice(start, start + DB_PER_PAGE);
+  track.innerHTML = visible.join('');
+
+  // Hiện nav nếu có nhiều hơn 4 đại biểu
+  if (dbAllCards.length > DB_PER_PAGE) {
+    nav.style.display = 'flex';
+    // Dots
+    dots.innerHTML = Array.from({length: totalPages}, (_, i) =>
+      `<div class="db-dot ${i === dbCurrentPage ? 'active' : ''}" onclick="dbGoTo(${i})"></div>`
+    ).join('');
+    // Counter
+    const from = start + 1;
+    const to = Math.min(start + DB_PER_PAGE, dbAllCards.length);
+    counter.textContent = `${from}–${to} / ${dbAllCards.length}`;
+    // Nút prev/next
+    document.getElementById('db-prev').disabled = dbCurrentPage === 0;
+    document.getElementById('db-next').disabled = dbCurrentPage === totalPages - 1;
+  } else {
+    nav.style.display = 'none';
+  }
+}
+
+function dbSlide(dir) {
+  const totalPages = Math.ceil(dbAllCards.length / DB_PER_PAGE);
+  dbCurrentPage = Math.max(0, Math.min(dbCurrentPage + dir, totalPages - 1));
+  dbRender();
+}
+
+function dbGoTo(page) {
+  dbCurrentPage = page;
+  dbRender();
 }
 
 // ── LỊCH TIẾP DÂN ──
@@ -684,16 +746,7 @@ if (isConfigured()) {
   document.getElementById('guide-box').style.display = 'none';
 }
 
-// ── TOGGLE ĐẠI BIỂU ──
-function toggleDaiBieu(btn) {
-  const more = document.getElementById('db-grid-more');
-  const isHidden = more.style.display === 'none';
-  more.style.display = isHidden ? 'grid' : 'none';
-  const count = more.querySelectorAll('.db-card').length;
-  btn.innerHTML = isHidden
-    ? 'Thu gọn ▲'
-    : `Xem thêm ${count} đại biểu ▼`;
-}
+// ── TOGGLE ĐẠI BIỂU – đã thay bằng carousel ──
 
 // ── CẤU HÌNH (Ban, Kỳ họp) ──
 async function loadCauHinh() {
