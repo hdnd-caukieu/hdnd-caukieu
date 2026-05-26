@@ -213,6 +213,7 @@ const SHEETS = {
   tintuc:    'TinTuc',
   daibieu:   'DaiBieu',
   tiepdan:   'LichTiepDan',
+  cauhinh:   'CauHinh',
 };
 
 // ─── Hàm đọc dữ liệu từ Google Sheets (CSV) ───
@@ -298,8 +299,12 @@ const isConfigured = () => SHEET_ID && SHEET_ID !== 'YOUR_SHEET_ID_HERE';
 <header>
   <div class="header-inner">
     <a href="#" class="logo-group">
-      <div class="logo-emblem">
-        <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <div class="logo-emblem" id="logo-emblem">
+        <img src="https://drive.google.com/uc?export=view&id=1mEqTdo3jGvUrgXWVA2463VDU4kNaQUj5"
+             alt="Logo Cầu Kiệu"
+             style="width:48px;height:48px;object-fit:contain;border-radius:50%;"
+             onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='flex';">
+        <svg id="logo-fallback" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;width:30px;height:30px;">
           <polygon points="15,2 18,10 27,10 20,16 23,24 15,19 7,24 10,16 3,10 12,10" fill="#FFD700"/>
         </svg>
       </div>
@@ -343,9 +348,9 @@ const isConfigured = () => SHEET_ID && SHEET_ID !== 'YOUR_SHEET_ID_HERE';
     </div>
     <div class="hero-stats">
       <div class="stat-item"><div class="stat-num" id="stat-daibieu">–</div><div class="stat-label">Đại biểu HĐND</div></div>
-      <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Ban của HĐND</div></div>
+      <div class="stat-item"><div class="stat-num" id="stat-ban">–</div><div class="stat-label">Ban của HĐND</div></div>
       <div class="stat-item"><div class="stat-num" id="stat-vanban">–</div><div class="stat-label">Văn bản ban hành</div></div>
-      <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">Kỳ họp/năm</div></div>
+      <div class="stat-item"><div class="stat-num" id="stat-kyhop">–</div><div class="stat-label">Kỳ họp/năm</div></div>
     </div>
   </div>
 </section>
@@ -615,7 +620,7 @@ async function loadDaiBieu() {
   if (!rows.length) { el.innerHTML = placeholder('👤','Chưa có dữ liệu','Thêm dữ liệu vào sheet DaiBieu'); return; }
   document.getElementById('stat-daibieu').textContent = rows.length;
   const tagColors = {'Thường trực':'background:var(--red-light);color:var(--red)','BKT-XH':'background:#EBF5FB;color:#2E86C1','BP Chế':'background:#EAFAF1;color:#1E8449'};
-  el.innerHTML = rows.map(r => {
+  const allCards = rows.map(r => {
     const bg = avatarColor(r['HoTen'] || '?');
     const abi = initials(r['HoTen'] || '?');
     const tagStyle = tagColors[r['Ban']] || 'background:#EBF0FA;color:var(--navy-mid)';
@@ -624,7 +629,21 @@ async function loadDaiBieu() {
       <div class="db-name">${r['HoTen']||''}</div>
       <div class="db-chuc-vu">${(r['ChucVu']||'').replace(/;/g,'<br>')}</div>
       <span style="display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;${tagStyle}">${r['Ban']||''}</span>
-    </div>`;}).join('');
+    </div>`;});
+
+  const first4 = allCards.slice(0, 4).join('');
+  const rest = allCards.slice(4).join('');
+  const hasMore = allCards.length > 4;
+
+  el.innerHTML = `
+    <div class="dai-bieu-grid" id="db-grid-main">${first4}</div>
+    ${hasMore ? `
+    <div class="dai-bieu-grid" id="db-grid-more" style="display:none;margin-top:20px;">${rest}</div>
+    <div style="text-align:center;margin-top:24px;">
+      <button onclick="toggleDaiBieu(this)" style="background:var(--white);border:1.5px solid var(--red);color:var(--red);border-radius:var(--radius);padding:10px 28px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;" onmouseover="this.style.background='var(--red)';this.style.color='#fff'" onmouseout="this.style.background='var(--white)';this.style.color='var(--red)'">
+        Xem thêm ${allCards.length - 4} đại biểu ▼
+      </button>
+    </div>` : ''}`;
 }
 
 // ── LỊCH TIẾP DÂN ──
@@ -665,8 +684,37 @@ if (isConfigured()) {
   document.getElementById('guide-box').style.display = 'none';
 }
 
+// ── TOGGLE ĐẠI BIỂU ──
+function toggleDaiBieu(btn) {
+  const more = document.getElementById('db-grid-more');
+  const isHidden = more.style.display === 'none';
+  more.style.display = isHidden ? 'grid' : 'none';
+  const count = more.querySelectorAll('.db-card').length;
+  btn.innerHTML = isHidden
+    ? 'Thu gọn ▲'
+    : `Xem thêm ${count} đại biểu ▼`;
+}
+
+// ── CẤU HÌNH (Ban, Kỳ họp) ──
+async function loadCauHinh() {
+  if (!isConfigured()) {
+    document.getElementById('stat-ban').textContent = '–';
+    document.getElementById('stat-kyhop').textContent = '–';
+    return;
+  }
+  const rows = await fetchSheet(SHEETS.cauhinh);
+  if (!rows.length) return;
+  rows.forEach(r => {
+    const key = (r['Key'] || '').trim();
+    const val = (r['GiaTri'] || '').trim();
+    if (key === 'SoBan') document.getElementById('stat-ban').textContent = val;
+    if (key === 'KyHopNam') document.getElementById('stat-kyhop').textContent = val;
+  });
+}
+
 // ── LOAD TẤT CẢ ──
 loadTicker();
+loadCauHinh();
 loadHoatDong();
 loadLichCT();
 loadVanBan();
