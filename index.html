@@ -90,7 +90,7 @@ header::before { display: none !important; }
 
 /* Xử lý Logo phẳng đổ bóng, viền trắng ôm sát giống hình mẫu */
 .header-logo-flat {
-  height: 80px;
+  height: 100px;
   object-fit: contain;
   filter: drop-shadow(0px 3px 5px rgba(13, 32, 69, 0.25));
   /* Tạo viền trắng mịn giả lập đường viền bao quanh logo */
@@ -247,8 +247,8 @@ nav{background:var(--navy);box-shadow:0 2px 12px rgba(13,32,69,.35);position:sti
 .tag-red{background:var(--red-light);color:var(--red);}
 .tag-navy{background:var(--navy-light);color:var(--navy-mid);}
 .tag-gold{background:var(--gold-light);color:var(--gold);}
-.nb h4{font-size:12.5px;font-weight:600;line-height:1.4;color:var(--text);margin-bottom:2px;}
-.nb .meta{font-size:11px;color:var(--muted);}
+.nb h4{font-size:17px;font-weight:700;line-height:1.6;color:var(--text);margin-bottom:4px;}
+.nb .meta{font-size:14px;color:var(--muted);line-height:1.5;}
 
 /* ── TABS ── */
 .tab-bar{display:flex;border-bottom:2px solid var(--border);padding:0 14px;}
@@ -294,8 +294,8 @@ nav{background:var(--navy);box-shadow:0 2px 12px rgba(13,32,69,.35);position:sti
 .dl li{padding:8px 0;border-bottom:1px solid var(--border);display:flex;gap:9px;align-items:flex-start;}
 .dl li:last-child{border-bottom:none;}
 .di{font-size:17px;flex-shrink:0;margin-top:2px;}
-.dinfo strong{font-size:16px;font-weight:700;color:var(--navy);display:block;line-height:1.4;}
-.dinfo small{font-size:20.5px;color:var(--muted);}
+.dinfo strong{font-size:18px;font-weight:700;color:var(--navy);display:block;line-height:1.7;}
+.dinfo small{font-size:15px;color:var(--muted);line-height:1.6;}
 .dinfo a{color:var(--red);text-decoration:none;font-size:18px;font-weight:700;}
 .dinfo a:hover{text-decoration:underline;}
 
@@ -369,6 +369,114 @@ footer a:hover{color:#fff;}
 .foot-accent{width:32px;height:3px;background:var(--red);border-radius:2px;margin-bottom:10px;}
 .fb{border-top:1px solid rgba(255,255,255,.12);padding-top:12px;text-align:center;font-size:11px;opacity:.55;max-width:1120px;margin:0 auto;}
 
+
+/* ── MOBILE RESPONSIVE ── */
+@media(max-width:768px){
+
+  body{
+    font-size:16px;
+    line-height:1.7;
+  }
+
+  .wrap{
+    grid-template-columns:1fr !important;
+    padding:14px;
+    gap:16px;
+  }
+
+  .hw{
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:12px;
+    padding:10px 14px;
+  }
+
+  .h-left{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .header-logo-flat{
+    height:95px;
+  }
+
+  .ht h1{
+    font-size:18px;
+    line-height:1.4;
+  }
+
+  .ht p{
+    font-size:11px;
+  }
+
+  .h-right{
+    width:100%;
+    justify-content:center;
+  }
+
+  .h-clock-box{
+    align-items:center;
+  }
+
+  .nw{
+    justify-content:center;
+  }
+
+  .nw a{
+    font-size:11px;
+    padding:10px 8px;
+  }
+
+  .hero{
+    padding:30px 16px;
+  }
+
+  .hero h2{
+    font-size:21px;
+    line-height:1.5;
+  }
+
+  .hero p{
+    font-size:14px;
+    line-height:1.7;
+  }
+
+  .sec h3{
+    font-size:20px;
+  }
+
+  .dinfo strong{
+    font-size:16px !important;
+  }
+
+  .nb h4{
+    font-size:16px !important;
+  }
+
+  .pdf-btn{
+    margin-top:8px;
+    display:inline-flex;
+  }
+
+  .sw{
+    gap:10px;
+  }
+
+  .si .n{
+    font-size:20px;
+  }
+
+  .si .l{
+    font-size:10px;
+  }
+
+  .fw{
+    grid-template-columns:1fr;
+  }
+
+}
+
 /* ── DIVIDER ── */
 .section-gap{margin-top:22px;}
 </style>
@@ -390,8 +498,8 @@ footer a:hover{color:#fff;}
     <div class="h-left">
       <img src="https://drive.google.com/thumbnail?id=1iQ5WCaEHv3nxmpImAf0tKYtI-1s_CFVH&sz=w500" class="header-logo-flat" alt="Logo Phường Cầu Kiệu">
       <div class="ht">
-        <h1>HỆ THỐNG THEO DÕI KIẾN NGHỊ CỬ TRI</h1>
-        <p>HĐND PHƯỜNG CẦU KIỆU - THÀNH PHỐ HỒ CHÍ MINH</p>
+        <h1>TRANG THÔNG TIN ĐIỆN TỬ HĐND PHƯỜNG CẦU KIỆU</h1>
+        		<p>THÀNH PHỐ HỒ CHÍ MINH</p>
       </div>
     </div>
 
@@ -673,7 +781,7 @@ function newsCards(data) {
       <div class="nb">
         <span class="tag ${r.Loai==='Thông báo'?'tag-gold':r.Loai==='Giám sát'?'tag-red':'tag-navy'}">${r.Loai||'Tin tức'}</span>
         <h4>${r.TieuDe||'—'}</h4>
-        <div class="meta">📅 ${r.Ngay||'—'} &nbsp;|&nbsp; ${r.TacGia||'Ban Thư ký HĐND'}</div>
+        <div class="meta">📅 ${r.Ngay||'—'} &nbsp;|&nbsp; ${r.TacGia||''}</div>
       </div>
     </div>`).join('');
 }
@@ -813,10 +921,38 @@ function tab(btn, id) {
 
 // ── CLOCK ──
 function tick() {
-  const el = document.getElementById('clock');
-  if(el) el.textContent = new Date().toLocaleString('vi-VN',{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  const now = new Date();
+
+  const topClock = document.getElementById('clock');
+  if(topClock){
+    topClock.textContent = now.toLocaleString('vi-VN',{
+      weekday:'short',
+      day:'2-digit',
+      month:'2-digit',
+      year:'numeric',
+      hour:'2-digit',
+      minute:'2-digit'
+    });
+  }
+
+  const dateString = document.getElementById('date-string');
+  if(dateString){
+    dateString.textContent = now.toLocaleDateString('vi-VN',{
+      weekday:'long',
+      day:'2-digit',
+      month:'2-digit',
+      year:'numeric'
+    });
+  }
+
+  const clockLarge = document.getElementById('clock-large');
+  if(clockLarge){
+    clockLarge.textContent = now.toLocaleTimeString('vi-VN');
+  }
 }
-tick(); setInterval(tick,30000);
+
+tick();
+setInterval(tick,1000);
 
 // ── SCROLL TOP ──
 window.addEventListener('scroll',()=>document.getElementById('sTop').classList.toggle('show',scrollY>300));
