@@ -247,7 +247,7 @@ nav{background:var(--navy);box-shadow:0 2px 12px rgba(13,32,69,.35);position:sti
 .tag-red{background:var(--red-light);color:var(--red);}
 .tag-navy{background:var(--navy-light);color:var(--navy-mid);}
 .tag-gold{background:var(--gold-light);color:var(--gold);}
-.nb h4{font-size:17px;font-weight:700;line-height:1.6;color:var(--text);margin-bottom:4px;}
+.nb h4{font-size:12px;font-weight:700;line-height:1.6;color:var(--text);margin-bottom:4px;}
 .nb .meta{font-size:14px;color:var(--muted);line-height:1.5;}
 
 /* ── TABS ── */
@@ -801,16 +801,21 @@ function docList(data, cfg) {
 function newsCards(data) {
   if (!data.length) return '<div class="empty">Chưa có dữ liệu.</div>';
   return data.map(r=>`
-    <div class="nc" ${r.Link?`onclick="window.open('${r.Link}','_blank')"`:''}> 
+    <div class="nc" ${r.Link?`onclick="window.open('${r.Link}','_blank')"`:''}>
       <div class="nth">${r.Icon||'📰'}</div>
       <div class="nb">
-        <span class="tag ${r.Loai==='Thông báo'?'tag-gold':r.Loai==='Giám sát'?'tag-red':'tag-navy'}">${r.Loai||'Tin tức'}</span>
+
         <h4>${r.TieuDe||'—'}</h4>
-        <div class="meta">📅 ${r.Ngay||'—'} &nbsp;|&nbsp; ${r.TacGia||'Ban Thư ký HĐND'}</div>
+
+         <div class="loai">
+          ${r.Loai||'Tin tức'}
+        </div>
+
+        <div class="meta">📅 ${r.Ngay||'—'} &nbsp;|&nbsp; ${r.TacGia||''}</div>
+
       </div>
     </div>`).join('');
 }
-
 function members(data) {
   if (!data.length) return '<div class="empty">Chưa có dữ liệu đại biểu.</div>';
 
