@@ -27,7 +27,9 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'Montserrat',sans-serif;color:var(--text);background:var(--bg);font-size:18px;line-height:2;}
+body{font-family:'Montserrat',sans-serif;color:var(--text);background:var(--bg);font-size:14px;line-height:1.7;}
+@media(min-width:780px){body{font-size:16px;}}
+@media(min-width:1100px){body{font-size:18px;line-height:2;}}
 
 /* ── TOPBAR ── */
 .topbar{background:var(--navy);color:rgba(255,255,255,.78);font-size:11.5px;padding:5px 0;}
@@ -90,15 +92,16 @@ header::before { display: none !important; }
 
 /* Xử lý Logo phẳng đổ bóng, viền trắng ôm sát giống hình mẫu */
 .header-logo-flat {
-  height: 100px;
+  height: 70px;
   object-fit: contain;
   filter: drop-shadow(0px 3px 5px rgba(13, 32, 69, 0.25));
-  /* Tạo viền trắng mịn giả lập đường viền bao quanh logo */
   border: 2px solid rgba(255, 255, 255, 0.9);
   background: rgba(255, 255, 255, 0.1);
   padding: 2px;
   border-radius: 4px;
 }
+@media(min-width:600px){.header-logo-flat{height:110px;}}
+@media(min-width:900px){.header-logo-flat{height:150px;}}
 
 /* Định dạng chữ tiêu đề hệ thống chính xác */
 .ht {
@@ -109,14 +112,16 @@ header::before { display: none !important; }
 
 .ht h1 {
   font-family: 'Montserrat', sans-serif;
-  font-size: 25px; /* Chữ to, dày vững chãi */
+  font-size: 14px;
   font-weight: 800;
-  color: #0b2f75; /* Màu xanh dương đậm đặc trưng */
-  letter-spacing: -0.5px;
-  line-height: 1.2;
+  color: #0b2f75;
+  letter-spacing: -0.3px;
+  line-height: 1.3;
   margin: 0;
-  text-shadow: none; /* Khử bóng đổ mờ của phiên bản cũ */
+  text-shadow: none;
 }
+@media(min-width:600px){.ht h1{font-size:18px;}}
+@media(min-width:900px){.ht h1{font-size:25px;letter-spacing:-0.5px;}}
 
 .ht p {
   font-family: 'Montserrat', sans-serif;
@@ -131,10 +136,11 @@ header::before { display: none !important; }
 
 /* Khối Phải: Cụm Đồng hồ hành chính & Nút tài khoản thả xuống */
 .h-right {
-  display: flex;
+  display: none;
   align-items: center;
   gap: 30px;
 }
+@media(min-width:700px){.h-right{display:flex;}}
 
 /* Khu vực hiển thị ngày giờ ngăn nắp */
 .h-clock-box {
@@ -194,15 +200,17 @@ header::before { display: none !important; }
 
 /* ── NAV ── */
 nav{background:var(--navy);box-shadow:0 2px 12px rgba(13,32,69,.35);position:sticky;top:0;z-index:200;border-bottom:3px solid var(--red);}
-.nw{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;flex-wrap:wrap;}
-.nw a{text-decoration:none;color:rgba(255,255,255,.8);font-size:12.5px;font-weight:700;padding:12px 13px;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all .18s;white-space:nowrap;letter-spacing:.2px;}
+.nw{max-width:1120px;margin:0 auto;padding:0 8px;display:flex;flex-wrap:wrap;}
+.nw a{text-decoration:none;color:rgba(255,255,255,.8);font-size:10px;font-weight:700;padding:8px 7px;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .18s;white-space:nowrap;letter-spacing:.1px;}
+@media(min-width:600px){.nw{padding:0 20px;} .nw a{font-size:11.5px;padding:10px 10px;}}
+@media(min-width:900px){.nw a{font-size:12.5px;padding:12px 13px;letter-spacing:.2px;}}
 .nw a:hover,.nw a.active{color:#fff;border-bottom-color:var(--red);}
 
 /* ── HERO ── */
 .hero{background:linear-gradient(135deg,var(--red-dark) 0%,var(--red) 50%,#e02040 100%);color:#fff;padding:50px 20px;text-align:center;position:relative;overflow:hidden;}
 .hero::before{content:'★';position:absolute;font-size:180px;color:rgba(255,255,255,.04);top:-20px;left:50%;transform:translateX(-50%);pointer-events:none;}
 .hero h2{font-size:25px;font-weight:800;margin-bottom:10px;text-shadow:0 2px 8px rgba(0,0,0,.2);position:relative;}
-.hero p{font-size:20px;opacity:.92;max-width:540px;margin:0 auto 22px;position:relative;font-weight:500;}
+.hero p{font-size:13.5px;opacity:.92;max-width:540px;margin:0 auto 22px;position:relative;font-weight:500;}
 .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;}
 .btn-w{background:#fff;color:var(--red-dark);border:none;padding:10px 22px;border-radius:7px;font-weight:700;font-size:12.5px;cursor:pointer;text-decoration:none;display:inline-block;transition:.18s;font-family:inherit;letter-spacing:.2px;}
 .btn-w:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.2);}
@@ -247,8 +255,8 @@ nav{background:var(--navy);box-shadow:0 2px 12px rgba(13,32,69,.35);position:sti
 .tag-red{background:var(--red-light);color:var(--red);}
 .tag-navy{background:var(--navy-light);color:var(--navy-mid);}
 .tag-gold{background:var(--gold-light);color:var(--gold);}
-.nb h4{font-size:12px;font-weight:700;line-height:1.6;color:var(--text);margin-bottom:4px;}
-.nb .meta{font-size:14px;color:var(--muted);line-height:1.5;}
+.nb h4{font-size:12.5px;font-weight:600;line-height:1.4;color:var(--text);margin-bottom:2px;}
+.nb .meta{font-size:11px;color:var(--muted);}
 
 /* ── TABS ── */
 .tab-bar{display:flex;border-bottom:2px solid var(--border);padding:0 14px;}
@@ -257,47 +265,36 @@ nav{background:var(--navy);box-shadow:0 2px 12px rgba(13,32,69,.35);position:sti
 .tp{display:none;padding:13px 14px;}
 .tp.active{display:block;}
 
-/* ── DOCUMENT SCROLL ── */
-.doc-scroll{
-  max-height:760px;
-  overflow-y:auto;
-  padding-right:4px;
-}
-.doc-scroll::-webkit-scrollbar{width:6px;}
-.doc-scroll::-webkit-scrollbar-track{background:var(--bg);border-radius:4px;}
-.doc-scroll::-webkit-scrollbar-thumb{background:var(--red-light);border-radius:4px;}
-.doc-scroll::-webkit-scrollbar-thumb:hover{background:var(--red);}
-
-/* ── PDF BUTTON ── */
-.pdf-btn{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  background:var(--red);
-  color:#fff !important;
-  padding:5px 10px;
-  border-radius:6px;
-  text-decoration:none !important;
-  font-size:11px !important;
-  font-weight:700;
-  margin-left:8px;
-  transition:.18s;
-  border:1px solid var(--red-dark);
-}
-.pdf-btn:hover{
-  background:var(--red-dark);
-  transform:translateY(-1px);
-}
-
-/* ── DOC LIST ── */
+/* ── DOC LIST (dùng cho sidebar liên hệ) ── */
 .dl{list-style:none;}
 .dl li{padding:8px 0;border-bottom:1px solid var(--border);display:flex;gap:9px;align-items:flex-start;}
 .dl li:last-child{border-bottom:none;}
 .di{font-size:17px;flex-shrink:0;margin-top:2px;}
-.dinfo strong{font-size:15px;font-weight:700;color:var(--navy);display:block;line-height:1.6;}
-.dinfo small{font-size:15px;color:var(--muted);line-height:1.6;}
-.dinfo a{color:var(--red);text-decoration:none;font-size:18px;font-weight:700;}
+.dinfo strong{font-size:13px;font-weight:700;color:var(--navy);display:block;line-height:1.4;}
+.dinfo small{font-size:12px;color:var(--muted);}
+.dinfo a{color:var(--red);text-decoration:none;font-size:12px;font-weight:700;}
 .dinfo a:hover{text-decoration:underline;}
+
+/* ── DOC TABLE (văn bản NQ/QĐ/TB) ── */
+.doc-scroll{overflow-x:auto;overflow-y:auto;border-radius:6px;border:1px solid var(--border);-webkit-overflow-scrolling:touch;}
+.doc-scroll.scrollable{max-height:480px;}
+.doc-scroll::-webkit-scrollbar{width:5px;height:5px;}
+.doc-scroll::-webkit-scrollbar-track{background:var(--bg);}
+.doc-scroll::-webkit-scrollbar-thumb{background:var(--red-light);border-radius:4px;}
+.doc-scroll::-webkit-scrollbar-thumb:hover{background:var(--red);}
+.dt{width:100%;border-collapse:collapse;min-width:480px;}
+.dt thead th{position:sticky;top:0;background:var(--navy);color:#fff;padding:9px 10px;text-align:left;font-size:12px;font-weight:700;letter-spacing:.3px;white-space:nowrap;z-index:2;}
+.dt thead th:last-child{text-align:center;width:52px;}
+.dt tbody tr{border-bottom:1px solid var(--border);transition:.15s;}
+.dt tbody tr:last-child{border-bottom:none;}
+.dt tbody tr:hover{background:var(--red-light);}
+.dt td{padding:9px 10px;vertical-align:top;font-size:13px;}
+.dt .td-sohieu{white-space:nowrap;font-weight:700;color:var(--navy);width:105px;}
+.dt .td-ngay{white-space:nowrap;color:var(--muted);width:105px;}
+.dt .td-trichyeu{line-height:1.55;color:var(--text);}
+.dt .td-tai{text-align:center;width:52px;}
+.dt .td-tai a{color:var(--red);text-decoration:none;font-size:20px;line-height:1;}
+.dt .td-tai a:hover{opacity:.75;}
 
 /* ── MEMBER SCROLL ── */
 .member-scroll{max-height:520px;overflow-y:auto;padding-right:4px;}
@@ -307,15 +304,18 @@ nav{background:var(--navy);box-shadow:0 2px 12px rgba(13,32,69,.35);position:sti
 .member-scroll::-webkit-scrollbar-thumb:hover{background:var(--red);}
 
 /* ── MEMBER ITEM ── */
-.mli{background:var(--bg);border-radius:12px;padding:14px 15px;display:flex;align-items:center;gap:10px;border:1.5px solid transparent;transition:.15s;margin-bottom:8px;}
+.mli{background:var(--bg);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;border:1.5px solid transparent;transition:.15s;margin-bottom:8px;}
 .mli:last-child{margin-bottom:0;}
 .mli:hover{border-color:var(--red);background:#fff;}
-.mli-avatar{width:82px;height:82px;border-radius:50%;background:var(--red-light);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--red);flex-shrink:0;overflow:hidden;border:2px solid rgba(192,21,42,.18);}
+.mli-avatar{width:46px;height:46px;border-radius:50%;background:var(--red-light);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:var(--red);flex-shrink:0;overflow:hidden;border:2px solid rgba(192,21,42,.18);}
+@media(min-width:600px){.mli-avatar{width:60px;height:60px;}}
+@media(min-width:1100px){.mli-avatar{width:82px;height:82px;}}
 .mli-avatar img{width:100%;height:100%;object-fit:cover;}
 .mli-info{flex:1;min-width:0;}
-.mli-info .ten{font-size:18px;font-weight:700;color:var(--navy);display:block;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.mli-info .chucvu{font-size:13px;font-weight:400;color:var(--muted);display:block;line-height:1.4;}
-.mli-info .ban{font-size:13px;font-weight:700;color:#7a4a1e;display:block;line-height:1.4;}
+.mli-info .ten{font-size:13px;font-weight:700;color:var(--red);display:block;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+@media(min-width:600px){.mli-info .ten{font-size:14px;}}
+.mli-info .chucvu{font-size:11.5px;font-weight:400;color:var(--muted);display:block;line-height:1.4;}
+.mli-info .ban{font-size:11.5px;font-weight:700;color:#7a4a1e;display:block;line-height:1.4;}
 .rbadge{display:inline-block;background:var(--red-light);color:var(--red);font-size:9.5px;padding:2px 6px;border-radius:20px;font-weight:700;margin-top:2px;}
 
 /* ── SCHEDULE ── */
@@ -369,139 +369,6 @@ footer a:hover{color:#fff;}
 .foot-accent{width:32px;height:3px;background:var(--red);border-radius:2px;margin-bottom:10px;}
 .fb{border-top:1px solid rgba(255,255,255,.12);padding-top:12px;text-align:center;font-size:11px;opacity:.55;max-width:1120px;margin:0 auto;}
 
-
-
-/* ── SCROLL HEIGHTS ── */
-.doc-scroll-3{
-  max-height:360px;
-  overflow-y:auto;
-  padding-right:4px;
-}
-
-.doc-scroll-5{
-  max-height:560px;
-  overflow-y:auto;
-  padding-right:4px;
-}
-
-.doc-scroll-3::-webkit-scrollbar,
-.doc-scroll-5::-webkit-scrollbar{
-  width:6px;
-}
-
-.doc-scroll-3::-webkit-scrollbar-thumb,
-.doc-scroll-5::-webkit-scrollbar-thumb{
-  background:var(--red-light);
-  border-radius:6px;
-}
-
-/* ── MOBILE RESPONSIVE ── */
-@media(max-width:768px){
-
-  body{
-    font-size:16px;
-    line-height:1.7;
-  }
-
-  .wrap{
-    grid-template-columns:1fr !important;
-    padding:14px;
-    gap:16px;
-  }
-
-  .hw{
-    flex-direction:column;
-    align-items:center;
-    text-align:center;
-    gap:12px;
-    padding:10px 14px;
-  }
-
-  .h-left{
-    flex-direction:column;
-    gap:10px;
-  }
-
-  .header-logo-flat{
-    height:95px;
-  }
-
-  .ht h1{
-    font-size:18px;
-    line-height:1.4;
-  }
-
-  .ht p{
-    font-size:11px;
-  }
-
-  .h-right{
-    width:100%;
-    justify-content:center;
-  }
-
-  .h-clock-box{
-    align-items:center;
-  }
-
-  .nw{
-    justify-content:center;
-  }
-
-  .nw a{
-    font-size:11px;
-    padding:10px 8px;
-  }
-
-  .hero{
-    padding:30px 16px;
-  }
-
-  .hero h2{
-    font-size:21px;
-    line-height:1.5;
-  }
-
-  .hero p{
-    font-size:14px;
-    line-height:1.7;
-  }
-
-  .sec h3{
-    font-size:20px;
-  }
-
-  .dinfo strong{
-    font-size:16px !important;
-  }
-
-  .nb h4{
-    font-size:16px !important;
-  }
-
-  .pdf-btn{
-    margin-top:8px;
-    display:inline-flex;
-  }
-
-  .sw{
-    gap:10px;
-  }
-
-  .si .n{
-    font-size:20px;
-  }
-
-  .si .l{
-    font-size:10px;
-  }
-
-  .fw{
-    grid-template-columns:1fr;
-  }
-
-}
-
 /* ── DIVIDER ── */
 .section-gap{margin-top:22px;}
 </style>
@@ -521,10 +388,10 @@ footer a:hover{color:#fff;}
   <div class="hw">
     <!-- Bên trái: Logo phẳng + Tiêu đề hệ thống -->
     <div class="h-left">
-      <img src="https://drive.google.com/thumbnail?id=1iQ5WCaEHv3nxmpImAf0tKYtI-1s_CFVH&sz=w400" class="header-logo-flat" alt="Logo Phường Cầu Kiệu">
+      <img src="https://drive.google.com/thumbnail?id=1ci0bEMpt1ImbuOp1nvV0g1GqAlMGShbX&sz=w500" class="header-logo-flat" alt="Logo Phường Cầu Kiệu">
       <div class="ht">
-        <h1>TRANG THÔNG TIN ĐIỆN TỬ HĐND PHƯỜNG CẦU KIỆU</h1>
-        <p>THÀNH PHỐ HỒ CHÍ MINH</p>
+        <h1>HỆ THỐNG THEO DÕI KIẾN NGHỊ CỬ TRI</h1>
+        <p>HĐND PHƯỜNG CẦU KIỆU - THÀNH PHỐ HỒ CHÍ MINH</p>
       </div>
     </div>
 
@@ -553,7 +420,7 @@ footer a:hover{color:#fff;}
 
 <!-- HERO -->
 <div class="hero" id="home">
-  <h2>Hội đồng nhân dân Phường Cầu Kiệu</h2>
+  <h2>Chào mừng đến với Hội đồng nhân dân Phường Cầu Kiệu</h2>
   <p>Cơ quan đại diện cho ý chí và nguyện vọng của nhân dân </p>
   <div class="hero-btns">
     <a href="#hoatdong" class="btn-w">📋 Hoạt động HĐND</a>
@@ -564,11 +431,11 @@ footer a:hover{color:#fff;}
 <!-- STATS -->
 <div class="stats">
   <div class="sw">
-    <div class="si"><span class="l">ĐẠI BIỂU HĐND</span><span class="n" id="stat-db">…</span></div>
-    <div class="si"><span class="l">NHIỆM KỲ</span><span class="n" id="stat-nk">2026 – 2031</span></div>
-    <div class="si"><span class="l">SỐ KỲ HỌP/ NHIỆM KỲ</span><span class="n" id="stat-kh">…</span></div>
-    <div class="si"><span class="l">NGHỊ QUYẾT BAN HÀNH</span><span class="n" id="stat-nq">…</span></div>
-    <div class="si"><span class="l">GIÁM SÁT /CUỘC</span><span class="n" id="stat-gs">…</span></div>
+    <div class="si"><span class="l">Đại biểu HĐND</span><span class="n" id="stat-db">…</span></div>
+    <div class="si"><span class="l">Nhiệm kỳ</span><span class="n" id="stat-nk">2026 – 2031</span></div>
+    <div class="si"><span class="l">Kỳ họp / năm</span><span class="n" id="stat-kh">…</span></div>
+    <div class="si"><span class="l">Nghị quyết ban hành</span><span class="n" id="stat-nq">…</span></div>
+    <div class="si"><span class="l">Đợt giám sát</span><span class="n" id="stat-gs">…</span></div>
   </div>
 </div>
 
@@ -657,7 +524,7 @@ footer a:hover{color:#fff;}
   <div class="hotline">
     <div class="lbl">📧 Liên hệ </div>
     <div class="em">hdnd.caukieu@tphcm.gov.vn</div>
-    
+    <small>Phản hồi trong 24 giờ làm việc</small>
   </div>
 
 </aside>
@@ -706,8 +573,8 @@ footer a:hover{color:#fff;}
 // ═══════════════════════════════════════════════════
 // ⚙️  CẤU HÌNH – Dán SHEETS_ID của bạn vào đây
 // ═══════════════════════════════════════════════════
-const SHEETS_ID = '1q20QfpT7mEwXcfjpJt0GoYbFVgnOV54ESuqqdcL3CG4';
-// Cách lấy ID: mở Google Sheets → xem URL (17xeH5610OGzp4Nw4NutU36T6Vn6Yj-01Jg-8WmuQoyo)
+const SHEETS_ID = '17xeH5610OGzp4Nw4NutU36T6Vn6Yj-01Jg-8WmuQoyo';
+// Cách lấy ID: mở Google Sheets → xem URL
 // docs.google.com/spreadsheets/d/[ID_Ở_ĐÂY]/edit
 // ═══════════════════════════════════════════════════
 
@@ -748,74 +615,70 @@ async function fetchSheet(name) {
 function rows(json) {
   if (!json?.table) return [];
   const tbl = json.table;
-  if (!tbl.rows || !tbl.cols) return [];
-  const hasLabel = tbl.cols[0]?.label && tbl.cols[0].label.trim();
-  let colNames, dataRows;
-  if (hasLabel) {
-    colNames = tbl.cols.map(c => c.label.trim());
-    dataRows = tbl.rows;
-  } else {
-    const h = tbl.rows[0];
-    colNames = h.c.map((c,i) => c ? String(c.v||'').trim() || tbl.cols[i]?.id || ('col'+i) : ('col'+i));
-    dataRows = tbl.rows.slice(1);
-  }
+  if (!tbl.rows || !tbl.cols || tbl.rows.length < 2) return [];
+  // Luôn lấy tên cột từ hàng đầu tiên của Sheet
+  const h = tbl.rows[0];
+  const colNames = h.c.map((c, i) => {
+    const name = c ? String(c.v || '').trim() : '';
+    return name || tbl.cols[i]?.id || ('col' + i);
+  });
+  const dataRows = tbl.rows.slice(1);
   return dataRows.map(row => {
     const o = {};
-    row.c?.forEach((c,i) => {
-      o[colNames[i]||('col'+i)] = c ? (c.f!=null ? c.f : (c.v!=null ? String(c.v) : '')) : '';
+    row.c?.forEach((c, i) => {
+      o[colNames[i] || ('col' + i)] = c
+        ? (c.f != null ? c.f : (c.v != null ? String(c.v) : ''))
+        : '';
     });
     return o;
-  }).filter(r => Object.values(r).some(v => String(v||'').trim()));
+  }).filter(r => {
+    // Giữ dòng có cột A hoặc B có dữ liệu
+    const vals = Object.values(r);
+    return String(vals[0] || '').trim() || String(vals[1] || '').trim();
+  });
 }
 
 
 // ── RENDERS ──
 function docList(data, cfg) {
   if (!data.length) return '<div class="empty">Chưa có dữ liệu.</div>';
-
-  const scrollClass = cfg.scrollClass || 'doc-scroll';
-
-  return `<div class="${scrollClass}"><ul class="dl">${data.map(r=>`
-    <li>
-      <div class="di">${r.Icon||cfg.icon||'📄'}</div>
-      <div class="dinfo">
-        <strong>
-          ${r[cfg.title]||'—'}
-          ${r[cfg.note] ? `<div style="font-size:13px;color:var(--muted);font-style:italic;font-weight:500;margin-top:4px;">| ${r[cfg.note]}</div>` : ''}
-        </strong>
-
-        <small>
-          ${r[cfg.date]?'📅 '+r[cfg.date]+' &nbsp;':''}
-          ${r[cfg.tag]?`<span class="tag tag-navy">${r[cfg.tag]}</span>`:''}
-
-          ${cfg.showPdf ? (
-            r[cfg.link]
-            ? `<a href="${r[cfg.link]}" target="_blank" class="pdf-btn">📥 Tải PDF</a>`
-            : `<a href="javascript:void(0)" onclick="alert('Xin lỗi, chưa có file đính kèm')" class="pdf-btn">📥 Tải PDF</a>`
-          ) : ''}
-        </small>
-      </div>
-    </li>`).join('')}</ul></div>`;
+  const scrollClass = data.length > 10 ? 'scrollable' : '';
+  // Tên cột thật: A=TenVanBan, B=SoHieu, C=NgayBanHanh, D=TrichYeu, E=FilePDF
+  const bodyRows = data.map(r => {
+    const soHieu   = r['SoHieu']       || '—';
+    const ngay     = r['NgayBanHanh']  || '—';
+    const trichYeu = r['TrichYeu']     || r['TenVanBan'] || '—';
+    const link     = r['FilePDF']      || '';
+    return `<tr>
+      <td class="td-sohieu">${soHieu}</td>
+      <td class="td-ngay">📅 ${ngay}</td>
+      <td class="td-trichyeu">${trichYeu}</td>
+      <td class="td-tai">${link ? `<a href="${link}" target="_blank" title="Tải / Xem">📥</a>` : '—'}</td>
+    </tr>`;
+  }).join('');
+  return `<div class="doc-scroll ${scrollClass}">
+    <table class="dt">
+      <thead><tr>
+        <th>Số hiệu</th><th>Ngày ban hành</th><th>Trích yếu</th><th>Tải</th>
+      </tr></thead>
+      <tbody>${bodyRows}</tbody>
+    </table>
+  </div>`;
 }
 
 function newsCards(data) {
   if (!data.length) return '<div class="empty">Chưa có dữ liệu.</div>';
   return data.map(r=>`
-    <div class="nc" ${r.Link?`onclick="window.open('${r.Link}','_blank')"`:''}>
+    <div class="nc" ${r.Link?`onclick="window.open('${r.Link}','_blank')"`:''}> 
       <div class="nth">${r.Icon||'📰'}</div>
       <div class="nb">
-
+        <span class="tag ${r.Loai==='Thông báo'?'tag-gold':r.Loai==='Giám sát'?'tag-red':'tag-navy'}">${r.Loai||'Tin tức'}</span>
         <h4>${r.TieuDe||'—'}</h4>
-
-         <div class="loai">
-          ${r.Loai||'Tin tức'}
-        </div>
-
-        <div class="meta">📅 ${r.Ngay||'—'} &nbsp;|&nbsp; ${r.TacGia||''}</div>
-
+        <div class="meta">📅 ${r.Ngay||'—'} &nbsp;|&nbsp; ${r.TacGia||'Ban Thư ký HĐND'}</div>
       </div>
     </div>`).join('');
 }
+
 function members(data) {
   if (!data.length) return '<div class="empty">Chưa có dữ liệu đại biểu.</div>';
 
@@ -882,15 +745,15 @@ async function load(sec) {
   if (sec==='hoatdong' || sec==='all') {
     loading('d-kyhop'); loading('d-txct');
     const [k,t] = await Promise.all([fetchSheet(SHEET.kyhop),fetchSheet(SHEET.txct)]);
-    k ? set('d-kyhop', docList(rows(k),{icon:'📅',title:'TieuDe',note:'GhiChu',date:'Ngay',tag:'TrangThai',scrollClass:'doc-scroll-3'})) : err('d-kyhop');
-    t ? set('d-txct',  docList(rows(t),{icon:'🤝',title:'TieuDe',note:'GhiChu',date:'Ngay',tag:'LoaiHop',scrollClass:'doc-scroll-3'})) : err('d-txct');
+    k ? set('d-kyhop', docList(rows(k),{icon:'📅',title:'TieuDe',date:'Ngay',tag:'TrangThai',link:'TaiLieu'})) : err('d-kyhop');
+    t ? set('d-txct',  docList(rows(t),{icon:'🤝',title:'TieuDe',date:'Ngay',tag:'LoaiHop',  link:'TaiLieu'})) : err('d-txct');
   }
   if (sec==='vanban' || sec==='all') {
     loading('d-nq'); loading('d-qd'); loading('d-tb');
     const [n,q,b] = await Promise.all([fetchSheet(SHEET.nq),fetchSheet(SHEET.qd),fetchSheet(SHEET.tb)]);
-    n ? set('d-nq', docList(rows(n),{icon:'📄',title:'TrichYeu',date:'NgayBanHanh',tag:'SoHieu',link:'FilePDF',showPdf:true,scrollClass:'doc-scroll-5'})) : err('d-nq');
-    q ? set('d-qd', docList(rows(q),{icon:'📋',title:'TrichYeu',date:'NgayBanHanh',tag:'SoHieu',link:'FilePDF',showPdf:true,scrollClass:'doc-scroll-5'})) : err('d-qd');
-    b ? set('d-tb', docList(rows(b),{icon:'📢',title:'TrichYeu',date:'NgayBanHanh',tag:'SoHieu',link:'FilePDF',showPdf:true,scrollClass:'doc-scroll-5'})) : err('d-tb');
+    n ? set('d-nq', docList(rows(n),{icon:'📄',title:'TenVanBan',date:'NgayBanHanh',tag:'SoHieu',link:'FilePDF'})) : err('d-nq');
+    q ? set('d-qd', docList(rows(q),{icon:'📋',title:'TenVanBan',date:'NgayBanHanh',tag:'SoHieu',link:'FilePDF'})) : err('d-qd');
+    b ? set('d-tb', docList(rows(b),{icon:'📢',title:'TenVanBan',date:'NgayBanHanh',tag:'SoHieu',link:'FilePDF'})) : err('d-tb');
   }
   if (sec==='giamsat' || sec==='all') {
     loading('d-giamsat');
@@ -951,38 +814,10 @@ function tab(btn, id) {
 
 // ── CLOCK ──
 function tick() {
-  const now = new Date();
-
-  const topClock = document.getElementById('clock');
-  if(topClock){
-    topClock.textContent = now.toLocaleString('vi-VN',{
-      weekday:'short',
-      day:'2-digit',
-      month:'2-digit',
-      year:'numeric',
-      hour:'2-digit',
-      minute:'2-digit'
-    });
-  }
-
-  const dateString = document.getElementById('date-string');
-  if(dateString){
-    dateString.textContent = now.toLocaleDateString('vi-VN',{
-      weekday:'long',
-      day:'2-digit',
-      month:'2-digit',
-      year:'numeric'
-    });
-  }
-
-  const clockLarge = document.getElementById('clock-large');
-  if(clockLarge){
-    clockLarge.textContent = now.toLocaleTimeString('vi-VN');
-  }
+  const el = document.getElementById('clock');
+  if(el) el.textContent = new Date().toLocaleString('vi-VN',{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
 }
-
-tick();
-setInterval(tick,1000);
+tick(); setInterval(tick,30000);
 
 // ── SCROLL TOP ──
 window.addEventListener('scroll',()=>document.getElementById('sTop').classList.toggle('show',scrollY>300));
